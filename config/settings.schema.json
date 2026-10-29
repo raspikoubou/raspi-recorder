@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:raspikoubou:raspi-recorder:settings:v1",
+  "title": "らずぱいドライブレコーダー設定",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "revision",
+    "auto_delete_start_tenths_gb",
+    "auto_recover_tenths_gb",
+    "volume",
+    "cameras"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "auto_delete_start_tenths_gb": {
+      "type": "integer",
+      "description": "0.1GB単位。媒体別の強制停止値より大きくする。"
+    },
+    "auto_recover_tenths_gb": {
+      "type": "integer",
+      "description": "0.1GB単位。削除開始閾値より大きく、実媒体容量以下にする。"
+    },
+    "volume": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "persistent_id"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "microSD",
+            "USB"
+          ]
+        },
+        "persistent_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      }
+    },
+    "power_saving_enabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "省電力モード。未指定の既存設定はfalseとして読み込みます。"
+    },
+    "cameras": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "camera_id",
+          "width",
+          "height",
+          "fps",
+          "quality",
+          "audio_enabled",
+          "overlay_enabled",
+          "overlay_corner",
+          "overlay_size",
+          "usb_port_key",
+          "video_interface_key",
+          "audio_interface_key"
+        ],
+        "properties": {
+          "camera_id": {
+            "enum": [
+              1,
+              2
+            ]
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "fps": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "quality": {
+            "enum": [
+              "low",
+              "standard",
+              "high"
+            ]
+          },
+          "audio_enabled": {
+            "type": "boolean"
+          },
+          "overlay_enabled": {
+            "type": "boolean"
+          },
+          "overlay_corner": {
+            "enum": [
+              "top_left",
+              "top_right",
+              "bottom_left",
+              "bottom_right"
+            ]
+          },
+          "overlay_size": {
+            "enum": [
+              "small",
+              "medium",
+              "large"
+            ]
+          },
+          "usb_port_key": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1
+          },
+          "video_interface_key": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1
+          },
+          "audio_interface_key": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1
+          }
+        }
+      },
+      "allOf": [
+        {
+          "contains": {
+            "properties": {
+              "camera_id": {
+                "const": 1
+              }
+            },
+            "required": [
+              "camera_id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "camera_id": {
+                "const": 2
+              }
+            },
+            "required": [
+              "camera_id"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "volume": {
+            "properties": {
+              "kind": {
+                "const": "microSD"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          }
+        },
+        "required": [
+          "volume"
+        ]
+      },
+      "then": {
+        "properties": {
+          "auto_delete_start_tenths_gb": {
+            "minimum": 21
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "volume": {
+            "properties": {
+              "kind": {
+                "const": "USB"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          }
+        },
+        "required": [
+          "volume"
+        ]
+      },
+      "then": {
+        "properties": {
+          "auto_delete_start_tenths_gb": {
+            "minimum": 11
+          }
+        }
+      }
+    }
+  ]
+}

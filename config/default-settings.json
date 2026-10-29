@@ -1,0 +1,41 @@
+{
+  "schema_version": 2,
+  "revision": 0,
+  "auto_delete_start_tenths_gb": 50,
+  "auto_recover_tenths_gb": 70,
+  "volume": {
+    "kind": "microSD",
+    "persistent_id": null
+  },
+  "power_saving_enabled": false,
+  "cameras": [
+    {
+      "camera_id": 1,
+      "width": 1280,
+      "height": 720,
+      "fps": 15,
+      "quality": "standard",
+      "audio_enabled": false,
+      "overlay_enabled": true,
+      "overlay_corner": "bottom_left",
+      "overlay_size": "medium",
+      "usb_port_key": null,
+      "video_interface_key": null,
+      "audio_interface_key": null
+    },
+    {
+      "camera_id": 2,
+      "width": 1280,
+      "height": 720,
+      "fps": 15,
+      "quality": "standard",
+      "audio_enabled": false,
+      "overlay_enabled": true,
+      "overlay_corner": "bottom_left",
+      "overlay_size": "medium",
+      "usb_port_key": null,
+      "video_interface_key": null,
+      "audio_interface_key": null
+    }
+  ]
+}

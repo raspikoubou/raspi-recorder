@@ -1,0 +1,16 @@
+[Unit]
+Description=Restricted recorder update helper socket
+Requires=raspi-recorder-update-recover.service
+After=raspi-recorder-update-recover.service
+
+[Socket]
+ListenStream=/run/raspi-recorder-update/helper.sock
+SocketUser=raspi-recorder
+SocketGroup=raspi-recorder
+SocketMode=0660
+DirectoryMode=0755
+Accept=yes
+RemoveOnStop=yes
+
+[Install]
+WantedBy=sockets.target

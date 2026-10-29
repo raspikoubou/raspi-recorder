@@ -1,0 +1,28 @@
+[Unit]
+Description=Restricted recorder release update request
+After=local-fs.target systemd-journald.socket
+
+[Service]
+Type=exec
+User=root
+Group=root
+StandardInput=socket
+StandardOutput=socket
+StandardError=journal
+ExecStart=/opt/raspi-recorder/current/.venv/bin/raspi-recorder update-helper serve
+UMask=0077
+NoNewPrivileges=yes
+PrivateDevices=yes
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=strict
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+LockPersonality=yes
+RestrictRealtime=yes
+RestrictAddressFamilies=AF_UNIX AF_INET
+ReadWritePaths=/opt/raspi-recorder /var/lib/raspi-recorder /var/lib/raspi-recorder-update /run/raspi-recorder-update
+TimeoutStartSec=0
+TimeoutStopSec=90
