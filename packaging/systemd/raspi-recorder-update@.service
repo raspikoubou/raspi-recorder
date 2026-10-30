@@ -4,7 +4,6 @@ After=local-fs.target systemd-journald.socket
 
 [Service]
 Type=exec
-User=root
 Group=root
 StandardInput=socket
 StandardOutput=socket
