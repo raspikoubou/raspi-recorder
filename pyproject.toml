@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "raspi-recorder"
-version = "0.1.36"
+version = "0.1.37"
 description = "Raspberry Pi設備用ドライブレコーダー"
 requires-python = ">=3.13,<3.14"
 dependencies = [
