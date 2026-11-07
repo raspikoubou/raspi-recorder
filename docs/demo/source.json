@@ -1,0 +1,10 @@
+{
+  "version": "0.1.44",
+  "source_commit": "64682e5c86820d51c1584d3f527daef7388b2a6c",
+  "sha256": {
+    "app.js": "4ca4cb007eeb7cfe1fb9ab75e7bfdd76585b4f6bb484cc4639f92fcebdd4a54a",
+    "app.css": "b2f881d0ee3eb9738bac081bfdccc4c6880dcf6dde043ef68f5d72b2d94c4ef2",
+    "media/sample-camera-1.mp4": "b9b51ff003a80e4d936c4f383e9d534a57ca2e5734b02f6b84c0ccf9ad6f8b9d",
+    "media/sample-camera-2.mp4": "2013517e434bb6b98d58118c375f14bea078adca8ab5a170d9d067d05df3f964"
+  }
+}

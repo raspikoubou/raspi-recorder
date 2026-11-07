@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import hashlib
 import io
 import json
 import os
@@ -42,6 +43,15 @@ _PRIVATE_SUFFIXES = (
     ".tar.gz",
     ".tar.zst",
 )
+_DEMO_MEDIA = {
+    "docs/demo/media/sample-camera-1.mp4": (
+        "b9b51ff003a80e4d936c4f383e9d534a57ca2e5734b02f6b84c0ccf9ad6f8b9d"
+    ),
+    "docs/demo/media/sample-camera-2.mp4": (
+        "2013517e434bb6b98d58118c375f14bea078adca8ab5a170d9d067d05df3f964"
+    ),
+}
+
 _BINARY_IMAGES = {".png", ".jpg", ".jpeg", ".webp", ".ico"}
 _PROSE_RULES = (
     ("unresolved investigation", r"未(?:特定|検証|実施|解決)|根本原因.{0,30}不明"),
@@ -121,6 +131,12 @@ def check_files(files: dict[str, Path]) -> list[str]:
     errors = []
     for name, path in sorted(files.items()):
         parts = Path(name).parts
+        if name in _DEMO_MEDIA:
+            if path.is_symlink() or not path.is_file():
+                errors.append(f"{name}: non-regular demo media")
+            elif hashlib.sha256(path.read_bytes()).hexdigest() != _DEMO_MEDIA[name]:
+                errors.append(f"{name}: unexpected demo media content")
+            continue
         if (
             name.startswith(_PRIVATE_TREES)
             or Path(name).name == "AGENTS.md"

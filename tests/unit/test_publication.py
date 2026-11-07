@@ -76,6 +76,33 @@ class PublicationTests(unittest.TestCase):
                 publication.check_files({"tests/test_module.py": path}), []
             )
 
+    def test_only_the_pinned_demo_videos_can_be_published(self):
+        root = Path(__file__).resolve().parents[2]
+        for name in publication._DEMO_MEDIA:
+            self.assertEqual(publication.check_files({name: root / name}), [])
+            with tempfile.TemporaryDirectory() as directory:
+                changed = Path(directory) / "changed.mp4"
+                changed.write_bytes(b"unapproved media")
+                self.assertTrue(publication.check_files({name: changed}))
+                self.assertTrue(
+                    publication.check_files(
+                        {"docs/demo/media/recording.mp4": root / name}
+                    )
+                )
+        with tempfile.TemporaryDirectory() as directory:
+            link = Path(directory) / "sample.mp4"
+            name = next(iter(publication._DEMO_MEDIA))
+            link.symlink_to(root / name)
+            self.assertTrue(publication.check_files({name: link}))
+
+    def test_demo_uses_identical_product_gui_assets(self):
+        root = Path(__file__).resolve().parents[2]
+        for name in ("app.js", "app.css"):
+            self.assertEqual(
+                (root / "docs/demo" / name).read_bytes(),
+                (root / "src/raspi_recorder/static" / name).read_bytes(),
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
