@@ -1,0 +1,43 @@
+name: Publication policy
+
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+  issues:
+    types: [opened, edited, reopened]
+  release:
+    types: [published, edited]
+  workflow_dispatch:
+  schedule:
+    - cron: '17 21 * * *'
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  publication:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.14'
+      - name: Check publication policy
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python packaging/check_publication.py --github "$GITHUB_REPOSITORY"
+      - name: Check validation behavior
+        run: python -m unittest discover -s tests/unit -p test_publication.py -q
+      - name: Check browser state
+        run: node --test tests/web/interaction_state.cjs tests/web/recording_browser_state.cjs
+      - name: Validate source distribution
+        env:
+          SOURCE_DATE_EPOCH: '0'
+        run: python packaging/build_release.py --output "$RUNNER_TEMP/publication-build"

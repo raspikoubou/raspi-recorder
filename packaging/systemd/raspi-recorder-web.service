@@ -1,0 +1,32 @@
+[Unit]
+Description=Raspi Recorder LAN web interface
+After=network.target raspi-recorder-engine.service
+Wants=raspi-recorder-engine.service
+
+[Service]
+Type=simple
+User=raspi-recorder-web
+Group=raspi-recorder
+WorkingDirectory=/opt/raspi-recorder/current
+Environment=RASPI_RECORDER_DATA_DIR=/var/lib/raspi-recorder
+Environment=RASPI_RECORDER_ENGINE_SOCKET=/run/raspi-recorder/engine.sock
+UMask=0007
+ExecStart=/opt/raspi-recorder/current/.venv/bin/gunicorn --bind 0.0.0.0:8080 --workers 1 --worker-class gthread --threads 8 --timeout 65 --no-control-socket --access-logfile - --error-logfile - raspi_recorder.web:app
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=yes
+PrivateDevices=yes
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=full
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictRealtime=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+ReadWritePaths=/var/lib/raspi-recorder /run/raspi-recorder
+
+[Install]
+WantedBy=multi-user.target

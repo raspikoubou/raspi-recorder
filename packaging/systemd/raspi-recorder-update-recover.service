@@ -1,0 +1,30 @@
+[Unit]
+Description=Recover an interrupted recorder update before starting services
+After=local-fs.target
+Before=raspi-recorder-engine.service raspi-recorder-web.service raspi-recorder-update.socket
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+ExecStart=/usr/lib/raspi-recorder/update-recover
+RemainAfterExit=yes
+UMask=0077
+RuntimeDirectory=raspi-recorder-update
+RuntimeDirectoryMode=0755
+NoNewPrivileges=yes
+PrivateDevices=yes
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=strict
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictRealtime=yes
+RestrictAddressFamilies=AF_UNIX AF_INET
+# The engine runtime directory is created only after this recovery unit runs.
+ReadWritePaths=/opt/raspi-recorder /var/lib/raspi-recorder /var/lib/raspi-recorder-update /run/raspi-recorder-update
+TimeoutStartSec=190

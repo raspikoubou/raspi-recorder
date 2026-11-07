@@ -1,0 +1,36 @@
+# 内部資料と秘密。配布時には別途、許可リストで除外を検証する。
+/local/
+/docs/implementation/
+/.env
+/.env.*
+!/.env.example
+*.key
+*.pem
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+/recordings/
+/artifacts/
+/dist/
+/build/
+*.egg-info/
+/.venv/
+__pycache__/
+*.py[cod]
+/.pytest_cache/
+/.mypy_cache/
+/.ruff_cache/
+/.coverage
+/htmlcov/
+.DS_Store
+
+# Internal material excluded from the initial source repository
+/AGENTS.md
+/Luna_GitHub初回登録_Pi実機検証_指示書_20261020.md
+/release-prep/
+/docs/requirements/
+/docs/README.md
+/scripts/
+/--help
