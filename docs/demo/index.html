@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>らずぱいドライブレコーダー</title>
+    <link rel="stylesheet" href="./app.css">
+    <link rel="stylesheet" href="./demo.css">
+    <script src="./demo.js" defer></script>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <aside class="demo-notice" aria-label="体験デモ">
+      <span><strong>体験デモ</strong> · サンプル映像で操作できます。
+        変更はページを開き直すと元に戻ります。</span>
+      <span class="demo-links">
+        <button id="demo-reset" type="button">初期状態に戻す</button>
+        <a href="https://github.com/raspikoubou/raspi-recorder/tree/main/docs/user"
+           target="_blank" rel="noopener">説明書</a>
+      </span>
+    </aside>
+    <header class="topbar">
+      <div class="topbar-main">
+        <h1>らずぱいドライブレコーダー</h1>
+        <span id="connection" class="badge" aria-live="polite">録画状態を確認中</span>
+      </div>
+      <nav id="top-navigation" class="top-navigation" aria-label="メインメニュー"></nav>
+      <div id="header-actions" class="header-actions"></div>
+    </header>
+    <main id="app" class="container">
+      <section class="card">
+        <p>画面を読み込んでいます。</p>
+      </section>
+    </main>
+  </body>
+</html>

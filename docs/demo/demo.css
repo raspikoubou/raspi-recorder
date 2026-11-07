@@ -1,0 +1,13 @@
+.demo-notice {
+  display: flex; align-items: center; justify-content: space-between; gap: .6rem 1.2rem;
+  padding: .65rem max(1rem, calc((100% - 1440px) / 2));
+  background: #e8f1fa; color: #24425e; border-bottom: 1px solid #c6d8ea;
+  font: 13px/1.6 system-ui, sans-serif;
+}
+.demo-links { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
+.demo-notice button {
+  font: inherit; color: #24425e; background: white; border: 1px solid #b5cce1;
+  padding: .3rem .65rem; border-radius: .4rem; min-height: 32px;
+}
+.demo-notice a { color: #24425e; }
+@media (max-width: 650px) { .demo-notice { flex-wrap: wrap; } }
